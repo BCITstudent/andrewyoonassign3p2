@@ -1,0 +1,56 @@
+1. Create Debian 12 Servers
+# Set hostname for web1
+sudo hostnamectl set-hostname web1
+
+# Set hostname for web2
+sudo hostnamectl set-hostname web2
+
+2. Create a new user and configure SSH
+# Add a new user 'web' on each server
+sudo adduser web
+
+# Add the user to the sudo group
+sudo usermod -aG sudo web
+
+# Set the login shell for the user to bash
+sudo chsh -s /bin/bash web
+
+# Disable root login via SSH
+sudo sed -i 's/PermitRootLogin yes/PermitRootLogin no/' /etc/ssh/sshd_config
+
+# Restart SSH service
+sudo systemctl restart ssh
+
+3. Install Nginx and UFW
+sudo apt update
+sudo apt install nginx ufw
+
+# Enable and start Nginx
+sudo systemctl enable nginx
+sudo systemctl start nginx
+
+4. Configure UFW
+# Allow HTTP and SSH traffic
+sudo ufw allow 80/tcp
+sudo ufw allow 443/tcp
+sudo ufw allow 22/tcp
+
+5. Enable UFW
+sudo ufw enable
+
+6. Nginx Configuration
+sudo nano /etc/nginx/sites-available/default
+
+7. systemd Service for Backend
+sudo nano /etc/systemd/system/hello-server.service
+
+8. Enable and Start Backend Service
+sudo systemctl enable hello-server
+sudo systemctl start hello-server
+
+9. Test Your Setup
+curl http://146.190.12.184/
+curl http://146.190.12.184/hey
+curl http://146.190.12.184/echo
+
+
