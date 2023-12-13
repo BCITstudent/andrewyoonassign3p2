@@ -1,0 +1,64 @@
+Server Configuration
+web1 Server
+
+    Hostname: web1
+    Tag: web
+    User: web
+        SSH Access: Enabled
+        Login Shell: Bash
+        Member of sudo group: Yes
+    Root SSH Access: Disabled
+    Installed Software:
+        Nginx
+        UFW
+
+web2 Server
+
+    Hostname: web2
+    Tag: web
+    User: web
+        SSH Access: Enabled
+        Login Shell: Bash
+        Member of sudo group: Yes
+    Root SSH Access: Disabled
+    Installed Software:
+        Nginx
+        UFW
+
+Firewall Configuration
+
+    UFW Configuration:
+        Allowed Incoming:
+            HTTP (80/tcp)
+            HTTPS (443/tcp)
+            SSH (22/tcp)
+        Default Deny: Enabled
+
+Frontend and Backend Configuration
+
+    Frontend Directory: /path/to/frontend
+    Backend Binary: /path/to/backend
+    Nginx Configuration:
+        Frontend served at http://web1/ and http://web2/
+        Backend proxied at /hey and /echo
+
+Systemd Service Configuration
+
+    Service Name: hello-server
+    User: web
+    Group: web
+    Restart Policy: Always
+    Enabled and Started: Yes
+
+Load Balancer Configuration
+
+    IP Address: Your_Load_Balancer_IP
+    Configured to distribute traffic between web1 and web2
+
+
+# Frontend
+curl http://146.190.12.184/
+
+# Backend Routes
+curl http://146.190.12.184/hey
+curl http://146.190.12.184/echo
